@@ -368,6 +368,33 @@ paths:
           $ref: "#/components/responses/400"
         '500':
           $ref: "#/components/responses/500"
+  /users/{ouid}/trades/{tid}:
+    patch:
+      summary: Accept or denies a trade.
+      description: Accepts or denies a trade. If accepted, the actions are automatically performed.
+      parameters:
+        - $ref: "#/components/parameters/ouid"
+        - $ref: "#/components/parameters/tid"
+      tags:
+        - Trades
+      requestBody:
+        description: Defines if the trade is accepted
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accepted:
+                  type: boolean
+                  example: true
+      responses:
+        '201':
+          description: Created
+        '404':
+          $ref: "#/components/responses/404"
+        '500':
+          $ref: "#/components/responses/500"
 components:
   parameters:
     NameQuery:
@@ -418,6 +445,13 @@ components:
       schema:
         type: integer
       description: Defines the id that the object should have.
+    tid:
+      name: tid
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: Defines the trade ID
   schemas:
     ShortUser:
       type: object
