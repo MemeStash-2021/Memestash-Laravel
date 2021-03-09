@@ -9,6 +9,8 @@ servers:
 tags:
   - name: Users
     description: All endpoints interacting mainly with users
+  - name: Cards
+    description: All endpoints interacting mainly with Cards
 paths:
   /users:
     get:
@@ -120,6 +122,23 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ShortUser"
+  /cards:
+    get:
+      summary: Gets all cards in the DB
+      description: Gets all the cards in a database
+      tags:
+        - Cards
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Card"
+        '500':
+          $ref: "#/components/responses/500"
 components:
   parameters:
     NameQuery:
