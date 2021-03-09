@@ -330,6 +330,44 @@ paths:
           $ref: "#/components/responses/404"
         '500':
           $ref: "#/components/responses/500"
+  /users/{ouid}/trades/{tuid}:
+    put:
+      summary: Adds a trade
+      description: Adds a trade to the system. A initial offer needs to be provided when created a trade request, that detailed which cards will be traded between users.
+      parameters:
+        - $ref: "#/components/parameters/ouid"
+        - $ref: "#/components/parameters/tuid"
+      tags:
+        - Trades
+      requestBody:
+        description: Details a initial trade offer that is sended to the system.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  offer:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Card"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trade"
+        '404':
+          $ref: "#/components/responses/404"
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
 components:
   parameters:
     NameQuery:
