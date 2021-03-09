@@ -11,6 +11,8 @@ tags:
     description: All endpoints interacting mainly with users
   - name: Cards
     description: All endpoints interacting mainly with Cards
+  - name: Chats
+    description: All endpoints interacting mainly with Chats
 paths:
   /users:
     get:
@@ -122,6 +124,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ShortUser"
+        '404':
+          $ref: "#/components/responses/404"
+        '500':
+          $ref: "#/components/responses/500"
   /cards:
     get:
       summary: Gets all cards in the DB
@@ -130,6 +136,7 @@ paths:
         - Cards
       parameters:
         - $ref: "#/components/parameters/NameQuery"
+        - $ref: "#/components/parameters/id"
       responses:
         '200':
           description: OK
@@ -139,6 +146,8 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Card"
+        '404':
+          $ref: "#/components/responses/404"
         '500':
           $ref: "#/components/responses/500"
   /users/{ouid}/cards:
@@ -180,6 +189,122 @@ paths:
           $ref: "#/components/responses/404"
         '500':
           $ref: "#/components/responses/500"
+  /users/{ouid}/chats:
+    get:
+      summary: Gets the user's conversations
+      description: Gets all the conversations of a user. This is also include the latest message in that conversation
+      parameters:
+        - $ref: "#/components/parameters/ouid"
+      tags:
+        - Chats
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    correspondent:
+                      $ref: "#/components/schemas/ShortUser"
+                    lastestMessage:
+                      $ref: "#/components/schemas/Message"
+        '404':
+          $ref: "#/components/responses/404"
+        '500':
+          $ref: "#/components/responses/500"
+  /users/{ouid}/chats/{tuid}:
+    get:
+      summary: Gets the conversation's content
+      description: "Returns the conversation's content between the user with the given ouid and the user with the given tuid."
+      parameters:
+        - $ref: "#/components/parameters/ouid"
+        - $ref: "#/components/parameters/tuid"
+      tags:
+        - Chats
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+        '404':
+          $ref: "#/components/responses/404"
+        '500':
+          $ref: "#/components/responses/500"
+    patch:
+      summary: Send a message
+      description: Sends a message to the user associated with TUID. The message queue needs to exists, otherwise, a 308 redirection message will be returned.
+      parameters:
+        - $ref: "#/components/parameters/ouid"
+        - $ref: "#/components/parameters/tuid"
+        - $ref: "#/components/parameters/offset"
+        - $ref: "#/components/parameters/count"
+      requestBody:
+        description: Contains the message that needs to be passed to
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: This a example message
+      tags:
+        - Chats
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Conversation"
+        '404':
+          $ref: "#/components/responses/404"
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+        '308':
+          $ref: "#/components/responses/308exist"
+    put:
+      summary: Create a conversation
+      description: Creates a conversation if it doesn't exist yet. If a message queue already exists, a 308 redirection code will returned
+      parameters:
+        - $ref: "#/components/parameters/ouid"
+        - $ref: "#/components/parameters/tuid"
+      tags:
+        - Chats
+      requestBody:
+        description: Contains the message that needs to be passed to
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: This a example message
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Conversation"
+        '404':
+          $ref: "#/components/responses/404"
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+        '308':
+          $ref: "#/components/responses/308new"
 components:
   parameters:
     NameQuery:
@@ -204,6 +329,32 @@ components:
         type: integer
         example: 23
       description: The id associated with a card
+    tuid:
+      name: tuid
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 2
+      description: The id associated with a user
+    offset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+      description: Drops a certain count of **first** items in the array.
+    count:
+      name: count
+      in: query
+      schema:
+        type: integer
+      description: Defines the maximum amount of objects in the array that may be passed.
+    id:
+      name: id
+      in: query
+      schema:
+        type: integer
+      description: Defines the id that the object should have.
   schemas:
     ShortUser:
       type: object
@@ -270,6 +421,32 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Card"
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+          example: This is an example message
+        date:
+          type: string
+          format: date-time
+        sender:
+          type: string
+          example: Mori
+        senderId:
+          type: integer
+          example: 4
+    Conversation:
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/ShortUser"
+        correspondent:
+          $ref: "#/components/schemas/ShortUser"
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/Message"
   responses:
     404:
       description: This object with the given ID could not be found
@@ -279,3 +456,7 @@ components:
       description: The request body / query is not correct.
     401:
       description: Authorization failed.
+    308exist:
+      description: No message queue exists. Use PUT /users/{ouid}/chats/{tuid} instead to create a message queue.
+    308new:
+      description: A message queue with this user already exists. Use PATCH /users/{ouid}/chats/{tuid} instead to add to the message queue.
