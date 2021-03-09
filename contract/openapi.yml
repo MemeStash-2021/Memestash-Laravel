@@ -11,6 +11,8 @@ tags:
     description: All endpoints interacting mainly with users
   - name: Cards
     description: All endpoints interacting mainly with Cards
+  - name: Chats
+    description: All endpoints interacting mainly with Chats
 paths:
   /users:
     get:
@@ -180,6 +182,28 @@ paths:
           $ref: "#/components/responses/404"
         '500':
           $ref: "#/components/responses/500"
+  /users/{ouid}/chats:
+    get:
+      summary: Gets the user's conversations
+      description: Gets all the conversations of a user. This is also include the latest message in that conversation
+      parameters:
+        - $ref: "#/components/parameters/ouid"
+      tags:
+        - Chats
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    correspondent:
+                      $ref: "#/components/schemas/ShortUser"
+                    lastestMessage:
+                      $ref: "#/components/schemas/Message"
 components:
   parameters:
     NameQuery:
@@ -270,6 +294,15 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Card"
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+          example: This is an example message
+        date:
+          type: string
+          format: date-time
   responses:
     404:
       description: This object with the given ID could not be found
