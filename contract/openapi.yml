@@ -270,7 +270,41 @@ paths:
         '500':
           $ref: "#/components/responses/500"
         '308':
-          $ref: "#/components/responses/308"
+          $ref: "#/components/responses/308exist"
+    put:
+      summary: Create a conversation
+      description: Creates a conversation if it doesn't exist yet. If a message queue already exists, a 308 redirection code will returned
+      parameters:
+        - $ref: "#/components/parameters/ouid"
+        - $ref: "#/components/parameters/tuid"
+      tags:
+        - Chats
+      requestBody:
+        description: Contains the message that needs to be passed to
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: This a example message
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Conversation"
+        '404':
+          $ref: "#/components/responses/404"
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+        '308':
+          $ref: "#/components/responses/308new"
 components:
   parameters:
     NameQuery:
@@ -422,5 +456,7 @@ components:
       description: The request body / query is not correct.
     401:
       description: Authorization failed.
-    308:
+    308exist:
       description: No message queue exists. Use PUT /users/{ouid}/chats/{tuid} instead to create a message queue.
+    308new:
+      description: A message queue with this user already exists. Use PATCH /users/{ouid}/chats/{tuid} instead to add to the message queue.
