@@ -223,20 +223,39 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  user:
-                    $ref: "#/components/schemas/ShortUser"
-                  correspondent:
-                    $ref: "#/components/schemas/ShortUser"
-                  messages:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Message"
+                $ref: "#/components/schemas/Message"
         '404':
           $ref: "#/components/responses/404"
         '500':
           $ref: "#/components/responses/500"
+    patch:
+      summary: Send a message
+      description: Sends a message to the user associated with TUID. The message queue needs to exists, otherwise, a 308 redirection message will be returned.
+      parameters:
+        - $ref: "#/components/parameters/ouid"
+        - $ref: "#/components/parameters/tuid"
+        - $ref: "#/components/parameters/offset"
+        - $ref: "#/components/parameters/count"
+      requestBody:
+        description: Contains the message that needs to be passed to
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: This a example message
+      tags:
+        - Chats
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Conversation"
 components:
   parameters:
     NameQuery:
@@ -269,6 +288,18 @@ components:
         type: integer
         example: 2
       description: The id associated with a user
+    offset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+      description: Drops a certain count of **first** items in the array.
+    count:
+      name: count
+      in: query
+      schema:
+        type: integer
+      description: Defines the maximum amount of objects in the array that may be passed.
   schemas:
     ShortUser:
       type: object
@@ -350,6 +381,17 @@ components:
         senderId:
           type: integer
           example: 4
+    Conversation:
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/ShortUser"
+        correspondent:
+          $ref: "#/components/schemas/ShortUser"
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/Message"
   responses:
     404:
       description: This object with the given ID could not be found
