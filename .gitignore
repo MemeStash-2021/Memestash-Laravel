@@ -143,3 +143,6 @@ modules.xml
 /build/
 
 # End of https://www.toptal.com/developers/gitignore/api/laravel,phpstorm+all,phpunit
+
+./supervisord.log
+./supervisord.pid
