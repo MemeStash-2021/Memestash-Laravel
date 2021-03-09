@@ -71,22 +71,55 @@ paths:
           $ref: "#/components/responses/404"
         '500':
           $ref: "#/components/responses/500"
-    delete:
-      summary: Removes a user
-      description: Removes a user from the database. The password **MUST** be passed in order to complete the action
-      tags:
-        - Users
+    patch:
+      summary: Edit a user
+      description: Edits the data passed along in the body. The (original) password needs to be passed to complete the transaction
       parameters:
         - $ref: "#/components/parameters/ouid"
+      tags:
+        - Users
+      requestBody:
+        description: Includes the data thta needs to be edited & the (original) password.
+        required: true
+        content:
+          application/json:
+            schema:
+              anyOf:
+                - type: object
+                  required:
+                    - password
+                  properties:
+                    username:
+                      type: string
+                      example: Mori
+                    newPassword:
+                      type: string
+                    password:
+                      type: string
+                - type: object
+                  required:
+                    - password
+                  properties:
+                    username:
+                      type: string
+                      example: Mori
+                    password:
+                      type: string
+                - type: object
+                  required:
+                    - password
+                  properties:
+                    newPassword:
+                      type: string
+                    password:
+                      type: string
       responses:
         '200':
           description: OK
-        '401':
-          $ref: "#/components/responses/401"
-        '500':
-          $ref: "#/components/responses/500"
-        '404':
-          $ref: "#/components/responses/404"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShortUser"
 components:
   parameters:
     NameQuery:
