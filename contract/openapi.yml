@@ -124,6 +124,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ShortUser"
+        '404':
+          $ref: "#/components/responses/404"
+        '500':
+          $ref: "#/components/responses/500"
   /cards:
     get:
       summary: Gets all cards in the DB
@@ -132,6 +136,7 @@ paths:
         - Cards
       parameters:
         - $ref: "#/components/parameters/NameQuery"
+        - $ref: "#/components/parameters/id"
       responses:
         '200':
           description: OK
@@ -141,6 +146,8 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Card"
+        '404':
+          $ref: "#/components/responses/404"
         '500':
           $ref: "#/components/responses/500"
   /users/{ouid}/cards:
@@ -256,6 +263,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Conversation"
+        '404':
+          $ref: "#/components/responses/404"
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+        '308':
+          $ref: "#/components/responses/308"
 components:
   parameters:
     NameQuery:
@@ -300,6 +315,12 @@ components:
       schema:
         type: integer
       description: Defines the maximum amount of objects in the array that may be passed.
+    id:
+      name: id
+      in: query
+      schema:
+        type: integer
+      description: Defines the id that the object should have.
   schemas:
     ShortUser:
       type: object
@@ -401,3 +422,5 @@ components:
       description: The request body / query is not correct.
     401:
       description: Authorization failed.
+    308:
+      description: No message queue exists. Use PUT /users/{ouid}/chats/{tuid} instead to create a message queue.
