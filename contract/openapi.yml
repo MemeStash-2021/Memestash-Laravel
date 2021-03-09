@@ -128,6 +128,8 @@ paths:
       description: Gets all the cards in a database
       tags:
         - Cards
+      parameters:
+        - $ref: "#/components/parameters/NameQuery"
       responses:
         '200':
           description: OK
@@ -139,6 +141,36 @@ paths:
                   $ref: "#/components/schemas/Card"
         '500':
           $ref: "#/components/responses/500"
+  /users/{ouid}/cards:
+    get:
+      summary: Gets a user's collection.
+      description: Gets the cards a user owns. Duplicates are possible!
+      parameters:
+        - $ref: "#/components/parameters/ouid"
+      tags:
+        - Cards
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userid:
+                    type: integer
+                    example: 3
+                  count:
+                    type: integer
+                    example: 56
+                  cards:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Card"
+        '404':
+          $ref: "#/components/responses/404"
+        '505':
+          $ref: "#/components/responses/500"
 components:
   parameters:
     NameQuery:
@@ -146,7 +178,7 @@ components:
       in: query
       schema:
         type: string
-      description: Filters the user by name
+      description: Filters by name
     ouid:
       name: ouid
       in: path
