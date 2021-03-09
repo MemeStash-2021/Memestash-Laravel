@@ -17,7 +17,7 @@ paths:
       tags:
         - Users
       parameters:
-        - $ref: "#/components/parameters/namequery"
+        - $ref: "#/components/parameters/NameQuery"
       responses:
         '200':
           description: OK
@@ -27,9 +27,29 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/User"
+    put:
+      summary: Adds a new user
+      description: Adds a new user. A body with the needed infomation **MUST** be provided
+      tags:
+        - Users
+      requestBody:
+        description: Describes the data needed to insert a new users
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewUser"
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
 components:
   parameters:
-    namequery:
+    NameQuery:
       name: name
       in: query
       schema:
@@ -46,3 +66,13 @@ components:
         name:
           type: string
           example: Ruiner
+    NewUser:
+      type: object
+      properties:
+        username:
+          type: string
+          example: "Ruiner"
+        password:
+          type: string
+          format: password
+          example: SomePassword
