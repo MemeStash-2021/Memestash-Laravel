@@ -11,8 +11,8 @@ drop table if exists chats;
 drop table if exists messages;
 set FOREIGN_KEY_CHECKS = 1;
 
-create user if not exists node_provider identified by 'N0desslyExpress1ve';
-grant all privileges on memestash to 'node_provider';
+create user if not exists laravel_provider identified by '1araS3nd';
+grant all privileges on memestash to 'laravel_provider';
 
 create table cards
 (
