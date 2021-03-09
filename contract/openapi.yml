@@ -155,21 +155,30 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  userid:
-                    type: integer
-                    example: 3
-                  count:
-                    type: integer
-                    example: 56
-                  cards:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Card"
+                $ref: "#/components/schemas/Collection"
         '404':
           $ref: "#/components/responses/404"
-        '505':
+        '500':
+          $ref: "#/components/responses/500"
+  /users/{ouid}/cards/{cid}:
+    put:
+      summary: Adds a card to the user's collection
+      description: Adds a card to a user's collection. The cost is automatically deducted
+      parameters:
+        - $ref: "#/components/parameters/ouid"
+        - $ref: "#/components/parameters/cid"
+      tags:
+        - Cards
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Collection"
+        '404':
+          $ref: "#/components/responses/404"
+        '500':
           $ref: "#/components/responses/500"
 components:
   parameters:
@@ -186,7 +195,15 @@ components:
       schema:
         type: integer
         example: 2
-      description: The id associated with a users
+      description: The id associated with a user
+    cid:
+      name: cid
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 23
+      description: The id associated with a card
   schemas:
     ShortUser:
       type: object
@@ -240,6 +257,19 @@ components:
         cost:
           type: integer
           example: 800
+    Collection:
+      type: object
+      properties:
+        userid:
+          type: integer
+          example: 3
+        count:
+          type: integer
+          example: 56
+        cards:
+          type: array
+          items:
+            $ref: "#/components/schemas/Card"
   responses:
     404:
       description: This object with the given ID could not be found
