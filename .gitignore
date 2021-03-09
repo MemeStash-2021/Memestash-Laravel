@@ -29,7 +29,6 @@ public_html/storage
 public_html/hot
 
 storage/*.key
-.env
 Homestead.yaml
 Homestead.json
 /.vagrant
@@ -143,3 +142,6 @@ modules.xml
 /build/
 
 # End of https://www.toptal.com/developers/gitignore/api/laravel,phpstorm+all,phpunit
+
+./supervisord.log
+./supervisord.pid
