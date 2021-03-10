@@ -13,6 +13,8 @@ tags:
     description: All endpoints interacting mainly with Cards
   - name: Chats
     description: All endpoints interacting mainly with Chats
+  - name: Trades
+    description: All endpoints interacting mainly with Trades
 paths:
   /users:
     get:
@@ -305,6 +307,94 @@ paths:
           $ref: "#/components/responses/500"
         '308':
           $ref: "#/components/responses/308new"
+  /users/{ouid}/trades:
+    get:
+      summary: Gets trade events
+      description: Gets the trade events where the user with the ouid is associated with. These can be filtered by querying.
+      parameters:
+        - $ref: "#/components/parameters/ouid"
+        - $ref: "#/components/parameters/count"
+        - $ref: "#/components/parameters/id"
+      tags:
+        - Trades
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Trade"
+        '404':
+          $ref: "#/components/responses/404"
+        '500':
+          $ref: "#/components/responses/500"
+  /users/{ouid}/trades/{tuid}:
+    put:
+      summary: Adds a trade
+      description: Adds a trade to the system. A initial offer needs to be provided when created a trade request, that detailed which cards will be traded between users.
+      parameters:
+        - $ref: "#/components/parameters/ouid"
+        - $ref: "#/components/parameters/tuid"
+      tags:
+        - Trades
+      requestBody:
+        description: Details a initial trade offer that is sended to the system.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  offer:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Card"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trade"
+        '404':
+          $ref: "#/components/responses/404"
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+  /users/{ouid}/trades/{tid}:
+    patch:
+      summary: Accept or denies a trade.
+      description: Accepts or denies a trade. If accepted, the actions are automatically performed.
+      parameters:
+        - $ref: "#/components/parameters/ouid"
+        - $ref: "#/components/parameters/tid"
+      tags:
+        - Trades
+      requestBody:
+        description: Defines if the trade is accepted
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accepted:
+                  type: boolean
+                  example: true
+      responses:
+        '201':
+          description: Created
+        '404':
+          $ref: "#/components/responses/404"
+        '500':
+          $ref: "#/components/responses/500"
 components:
   parameters:
     NameQuery:
@@ -355,6 +445,13 @@ components:
       schema:
         type: integer
       description: Defines the id that the object should have.
+    tid:
+      name: tid
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: Defines the trade ID
   schemas:
     ShortUser:
       type: object
@@ -447,6 +544,27 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Message"
+    Trade:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 4
+        type:
+          type: string
+          enum: ['incoming', 'outgoing']
+          example: incoming
+        trade:
+          type: array
+          items:
+            type: object
+            properties:
+              user:
+                $ref: "#/components/schemas/ShortUser"
+              offer:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Card"
   responses:
     404:
       description: This object with the given ID could not be found
