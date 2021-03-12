@@ -40,6 +40,6 @@ _ide_*
 
 # End of https://www.toptal.com/developers/gitignore/api/vscode,laravel
 
-µ
 supervisord.log
 supervisord.pid
+phpunit.xml
