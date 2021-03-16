@@ -14,14 +14,6 @@ set FOREIGN_KEY_CHECKS = 1;
 create user if not exists laravel_provider identified by '1araS3nd';
 grant all privileges on memestash to 'laravel_provider';
 
-create table collections
-(
-    user_id int not null,
-    card_id int not null,
-    foreign key (user_id) references users (id),
-    foreign key (card_id) references cards (id)
-);
-
 create table trades
 (
     id          int auto_increment primary key unique,
