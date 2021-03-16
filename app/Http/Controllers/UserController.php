@@ -74,6 +74,6 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return json_encode(array('id' => $id, 'name' => $request->get('username')));
     }
 }

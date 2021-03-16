@@ -23,4 +23,5 @@ Route::prefix('users')->group(function () {
     Route::get('/',[UserController::class, 'index']);
     Route::get('/{ouid}', [UserController::class, 'show']);
     Route::put('/', [UserController::class, 'store']);
+    Route::patch('/{ouid}', [UserController::class, 'update']);
 });
