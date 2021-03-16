@@ -14,17 +14,6 @@ set FOREIGN_KEY_CHECKS = 1;
 create user if not exists laravel_provider identified by '1araS3nd';
 grant all privileges on memestash to 'laravel_provider';
 
-create table users
-(
-    id            int auto_increment primary key unique,
-    name          varchar(60) unique  not null,
-    email         varchar(255) unique not null,
-    password      text                not null,
-    wallet        int                 not null,
-    remember_token varchar(255),
-    email_verified_at datetime
-);
-
 create table collections
 (
     user_id int not null,
