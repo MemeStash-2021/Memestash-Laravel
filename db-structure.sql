@@ -14,15 +14,6 @@ set FOREIGN_KEY_CHECKS = 1;
 create user if not exists laravel_provider identified by '1araS3nd';
 grant all privileges on memestash to 'laravel_provider';
 
-create table chats
-(
-    id               int auto_increment primary key unique,
-    participant_id_1 int not null,
-    participant_id_2 int not null,
-    foreign key (participant_id_1) references users (id),
-    foreign key (participant_id_2) references users (id)
-);
-
 create table messages
 (
     chat_id   int          not null,
