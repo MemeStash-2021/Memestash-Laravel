@@ -54,7 +54,13 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $res = array('id' => $id, 'name' => "Ruiner", "wallet" => 800000);
+        $cards = array();
+        for ($i =0; $i<6; $i++){
+            $cards[$i] = array('id'=> $i, "name" => "card1", "image" => "https://placeholder.com/300", "description" => "A description", "cost" => 800);
+        }
+        array_push($res, ["cards" => $cards]);
+        return json_encode($res);
     }
 
     /**
