@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Collections extends Migration
+class Offers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class Collections extends Migration
      */
     public function up()
     {
-        Schema::create('collections', function (Blueprint $table){
-           $table->foreignId('user_id')->constrained('users');
-           $table->foreignId('card_id')->constrained('cards');
+        Schema::create('offers', function (Blueprint $table){
+            $table->foreignId('trade_id')-> constrained('trades');
+            $table->foreignId('card_id')->constrained('cards');
+            $table->foreignId('user_id')->constrained('users');
         });
     }
 
@@ -26,6 +27,6 @@ class Collections extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('collections');
+        Schema::dropIfExists('offers');
     }
 }

@@ -27,10 +27,6 @@ class Trades extends Migration
      */
     public function down()
     {
-        Schema::table('trades', function (Blueprint $table){
-            $table->dropForeign('trades_sender_id_users');
-            $table->dropForeign('trades_receiver_id_users');
-        });
         Schema::dropIfExists('trades');
     }
 }
