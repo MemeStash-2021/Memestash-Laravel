@@ -14,15 +14,6 @@ set FOREIGN_KEY_CHECKS = 1;
 create user if not exists laravel_provider identified by '1araS3nd';
 grant all privileges on memestash to 'laravel_provider';
 
-create table cards
-(
-    id          int auto_increment primary key,
-    name        varchar(60) unique not null,
-    picture     text               null,
-    price       int                not null,
-    description text               not null
-);
-
 create table users
 (
     id       int auto_increment primary key unique,
