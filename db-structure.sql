@@ -25,10 +25,13 @@ create table cards
 
 create table users
 (
-    id       int auto_increment primary key unique,
-    username varchar(60) unique not null,
-    password text               not null,
-    wallet   int                not null
+    id            int auto_increment primary key unique,
+    name          varchar(60) unique  not null,
+    email         varchar(255) unique not null,
+    password      text                not null,
+    wallet        int                 not null,
+    remember_token varchar(255),
+    email_verified_at datetime
 );
 
 create table collections
@@ -69,7 +72,7 @@ create table chats
 
 create table messages
 (
-    chat_id   int not null ,
+    chat_id   int          not null,
     message   varchar(255) not null,
     timestamp datetime     not null,
     foreign key (chat_id) references chats (id)
