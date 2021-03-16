@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 class UserController extends Controller
 {
@@ -12,19 +11,32 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $res = array();
-        for ($i = 0; $i<10; $i++){
-            $res[$i] = array('id' => $i, 'username' => "user". strval($i));
+        for ($i = 0; $i < 10; $i++) {
+            $res[$i] = array('id' => $i, 'username' => "user" . strval($i));
         }
-        return json_encode($res);
+        $name = $request->input('name');
+        if(is_null($name)){
+            return json_encode($res);
+        } else{
+            for( $i = 0; $i< count($res); $i++){
+                $user = $res[$i];
+                if(!str_contains(($user['username']), $name)){
+                    unset($res[$i]);
+                }
+            }
+            return json_encode($res);
+        }
+
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -35,7 +47,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -46,8 +58,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -58,7 +70,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
