@@ -27,10 +27,12 @@ class UserController extends Controller
                     unset($res[$i]);
                 }
             }
-            return json_encode($res);
+            $newres = array();
+            foreach ($res as $key => $value){
+                array_push($newres, $value);
+            }
+            return ($newres);
         }
-
-
     }
 
     /**
