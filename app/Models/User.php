@@ -7,9 +7,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @property mixed|string name
+ * @property mixed|string email
+ * @property mixed password
+ */
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
