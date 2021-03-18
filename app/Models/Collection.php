@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Card extends Model
+class Collection extends Model
 {
     use HasFactory;
 
@@ -15,13 +15,15 @@ class Card extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'picture',
-        'price',
-        'description'
+        'user_id',
+        'card_id'
     ];
 
-    public function collection(){
-        return $this->belongsTo('App\Collection', 'card_id');
+    public function user(){
+        return $this->belongsTo('App\User', 'user_id');
+    }
+
+    public function card(){
+        return $this->hasMany('App\Card', 'id', 'card_id');
     }
 }
