@@ -3,7 +3,6 @@
 
 namespace App\Http\Services;
 
-
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,9 +10,12 @@ use Illuminate\Support\Facades\Hash;
 class UserService
 {
     private $model;
+    private $validator;
 
-    public function __construct(User $model){
-        $this-> model = $model;
+    public function __construct(User $user, ValidationService $validator)
+    {
+        $this->model = $user;
+        $this->validator = $validator;
     }
 
     /**
@@ -25,9 +27,11 @@ class UserService
     {
         $name = $request->input('name');
         if ($name == null) {
-            return User::query() -> select(['id','name']) -> orderBy('id') -> get() -> toJson();
-        }else{
-            return User::query() -> select(['name', 'wallet']) -> where('name', 'LIKE', "%{$name}%") -> get() -> toJson();
+            return User::select(['id', 'name'])->orderBy('id', 'asc')->get();
+        } else {
+            return User::select(['id', 'name'])->get()->sortby('id')->reject(function ($value, $key) use ($name) {
+                return !str_contains($value->name, $name);
+            })->values()->toJson();
         }
     }
 
@@ -38,12 +42,14 @@ class UserService
      */
     public function add_user(Request $request): string
     {
+        $data = $this->validator->newUser($request);
         $user = new User();
-        $user->name = $request->get("username");
-        $user->password = Hash::make($request->get("password"));
-        $user->email = $request->get("email");
+        $user->name = $data['username'];
+        $user->password = Hash::make($data['password']);
+        $user->email = $data['email'];
         $user->save();
+        //TODO: Add proper error handling through API
 
-        return User::query()->select('id', 'name')->where('name', '=', $request->get("username"))->get()->toJson();
+        return User::select(['id', 'name'])->dd();
     }
 }
