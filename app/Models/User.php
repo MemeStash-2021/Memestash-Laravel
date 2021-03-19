@@ -49,4 +49,8 @@ class User extends Authenticatable
     protected $attributes = [
         'wallet' => 800,
     ];
+
+    public function collection(){
+        return $this->hasOne(Collection::class, 'user_id');
+    }
 }
