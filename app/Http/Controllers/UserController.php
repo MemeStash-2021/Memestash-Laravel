@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -9,29 +10,17 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        $res = array();
-        for ($i = 0; $i < 10; $i++) {
-            $res[$i] = array('id' => $i, 'username' => "user" . strval($i));
-        }
         $name = $request->input('name');
+        $data = User::all();
         if(is_null($name)){
-            return json_encode($res);
+            dd($data);
         } else{
-            for( $i = 0; $i< count($res); $i++){
-                $user = $res[$i];
-                if(!str_contains(($user['username']), $name)){
-                    unset($res[$i]);
-                }
-            }
-            $newres = array();
-            foreach ($res as $key => $value){
-                array_push($newres, $value);
-            }
-            return ($newres);
+            dd($data);
         }
     }
 
