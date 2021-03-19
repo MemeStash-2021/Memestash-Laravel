@@ -11,16 +11,15 @@ class UserController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return string
      */
     public function index(Request $request)
     {
         $name = $request->input('name');
-        $data = User::all();
-        if(is_null($name)){
-            dd($data);
-        } else{
-            dd($data);
+        if ($name == null) {
+            return User::query() -> select(['id','name']) -> orderBy('id') -> get() -> toJson();
+        }else{
+            return User::query() -> select(['name', 'wallet']) -> where('name', 'LIKE', "%{$name}%") -> get() -> toJson();
         }
     }
 
