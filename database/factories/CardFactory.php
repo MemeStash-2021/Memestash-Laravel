@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Model;
+use App\Models\Card;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CardFactory extends Factory
@@ -12,7 +12,7 @@ class CardFactory extends Factory
      *
      * @var string
      */
-    protected $model = Model::class;
+    protected $model = Card::class;
 
     /**
      * Define the model's default state.
@@ -22,7 +22,10 @@ class CardFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->catchPhrase,
+            'picture' => $this->faker->imageUrl(),
+            'price' => $this->faker->numberBetween(100, 1200),
+            'description'=> $this->faker->realText(255)
         ];
     }
 }

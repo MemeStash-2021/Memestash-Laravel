@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Card extends Model
 {
     use HasFactory;
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +22,9 @@ class Card extends Model
         'description'
     ];
 
+    /**
+     * Defines the relationships to other models
+     */
     public function collection(){
         return $this->belongsTo(Collection::class, 'card_id');
     }
