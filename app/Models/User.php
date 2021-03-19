@@ -51,6 +51,6 @@ class User extends Authenticatable
     ];
 
     public function collection(){
-        return $this->hasOne('App\Collection', 'user_id', 'id');
+        return $this->hasOne(Collection::class, 'user_id');
     }
 }

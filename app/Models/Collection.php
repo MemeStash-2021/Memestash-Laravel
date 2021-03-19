@@ -20,10 +20,10 @@ class Collection extends Model
     ];
 
     public function user(){
-        return $this->belongsTo('App\User', 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function card(){
-        return $this->hasMany('App\Card', 'id', 'card_id');
+        return $this->hasMany(Card::class, 'id', 'card_id');
     }
 }

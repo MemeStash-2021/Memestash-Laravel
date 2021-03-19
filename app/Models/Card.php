@@ -22,6 +22,6 @@ class Card extends Model
     ];
 
     public function collection(){
-        return $this->belongsTo('App\Collection', 'card_id');
+        return $this->belongsTo(Collection::class, 'card_id');
     }
 }
