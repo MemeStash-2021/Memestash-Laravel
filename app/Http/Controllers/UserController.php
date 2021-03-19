@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Services\UserService as Service;
+use App\Http\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
+    private $service;
+
+    public function __construct(UserService $service){
+        $this -> service = $service;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,20 +22,19 @@ class UserController extends Controller
      */
     public function index(Request $request): string
     {
-       return Service::get_users($request);
+       return $this->service->get_users($request);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return Response
+     * @return string
      */
-    public function store(Request $request)
+
+    public function store(Request $request): string
     {
-        $name = $request->get("username");
-        $password = $request->get("password");
-        return json_encode(array('id'=>12, "name" => $name));
+        return $this->service->add_user($request);
     }
 
     /**

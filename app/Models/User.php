@@ -11,6 +11,7 @@ use Illuminate\Notifications\Notifiable;
  * @property mixed|string name
  * @property mixed|string email
  * @property mixed password
+ * @method static select(string[] $array)
  */
 class User extends Authenticatable
 {
@@ -61,5 +62,9 @@ class User extends Authenticatable
 
     public function collection(){
         return $this->hasOne(Collection::class, 'user_id');
+    }
+
+    public function card(){
+        return $this->hasManyThrough(Card::class, Collection::class, 'id', 'card_id', 'id', 'user_id');
     }
 }
