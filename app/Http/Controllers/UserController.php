@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -39,13 +41,17 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return string
      */
-    public function store(Request $request)
+    public function store(Request $request): string
     {
-        $name = $request->get("username");
-        $password = $request->get("password");
-        return json_encode(array('id'=>12, "name" => $name));
+        $user = new User();
+        $user -> name = $request->get("username");
+        $user -> password = Hash::make($request->get("password"));
+        $user -> email = $request->get("email");
+        $user -> save();
+
+        return User::query() -> select('id','name') -> where('name', '=', $request->get("username")) -> get() -> toJson();
     }
 
     /**
