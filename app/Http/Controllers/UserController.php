@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\UserService as Service;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -11,36 +13,19 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return string
      */
-    public function index(Request $request)
+    public function index(Request $request): string
     {
-        $res = array();
-        for ($i = 0; $i < 10; $i++) {
-            $res[$i] = array('id' => $i, 'username' => "user" . strval($i));
-        }
-        $name = $request->input('name');
-        if(is_null($name)){
-            return json_encode($res);
-        } else{
-            for( $i = 0; $i< count($res); $i++){
-                $user = $res[$i];
-                if(!str_contains(($user['username']), $name)){
-                    unset($res[$i]);
-                }
-            }
-            $newres = array();
-            foreach ($res as $key => $value){
-                array_push($newres, $value);
-            }
-            return ($newres);
-        }
+       return Service::get_users($request);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
+     * @return Response
      * @return string
      */
     public function store(Request $request): string
@@ -58,7 +43,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -74,9 +59,9 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
