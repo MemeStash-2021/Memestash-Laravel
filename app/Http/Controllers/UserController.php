@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Http\Services\UserService as Service;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -13,21 +14,16 @@ class UserController extends Controller
      * @param Request $request
      * @return string
      */
-    public function index(Request $request)
+    public function index(Request $request): string
     {
-        $name = $request->input('name');
-        if ($name == null) {
-            return User::query() -> select(['id','name']) -> orderBy('id') -> get() -> toJson();
-        }else{
-            return User::query() -> select(['name', 'wallet']) -> where('name', 'LIKE', "%{$name}%") -> get() -> toJson();
-        }
+       return Service::get_users($request);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -40,7 +36,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -56,9 +52,9 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
