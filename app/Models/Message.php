@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Card extends Model
+class Message extends Model
 {
     use HasFactory;
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -16,14 +17,20 @@ class Card extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'picture',
-        'price',
-        'description'
+        'chat_id',
+        'user_id',
+        'timestamp',
+        'message'
     ];
 
-    public function collection(): BelongsTo
+    public function chat(): BelongsTo
     {
-        return $this->belongsTo(Collection::class, 'card_id');
+        return $this->belongsTo(Chat::class, 'chat_id');
     }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
 }
