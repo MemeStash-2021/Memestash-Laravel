@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Chat extends Model
 {
@@ -20,11 +22,18 @@ class Chat extends Model
         'participant_id_2'
     ];
 
-    public function participant_1(){
+    public function participant_1(): BelongsTo
+    {
         return $this->belongsTo(User::class, 'participant_1_id');
     }
 
-    public function participant_2(){
+    public function participant_2(): BelongsTo
+    {
         return $this->belongsTo(User::class, 'participant_2_id');
+    }
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'chat_id');
     }
 }
