@@ -518,6 +518,9 @@ components:
           type: string
           format: password
           example: SomePassword
+        email:
+          type: string
+          example: ruiner@cyber.uk
     User:
       type: object
       properties:
