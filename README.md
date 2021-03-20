@@ -35,6 +35,40 @@ This project uses Laravel Sail in order to run. This means that Docker can be us
     ```
 That should be it! If you're able to visit [Laravel's homepage](http://localhost) through `http://localhost`, the system is up & running. If you wish to stop the containers, you can use the following command: `./vendor/bin/sail stop`
 
+## Features
+### API Spec
+You can view the API Spec by visiting the [spec](https://git.ti.howest.be/TI/2020-2021/s4/web-and-mobile-technology/students/bo-robbrecht/memestash/laravel/-/blob/master/contract/openapi.yml)
+#### Users
+|HTTP Verb|Endpoint|Description|Stage?|
+|---|---|---|---|
+|GET|`/users`|Retrieves a list of all users and info about them. Can be filtered with query parameters.| Implemented |
+|GET|`/users/{ouid}`|This endpoint gets all the information of a user to be able to construct the homepage. This includes things like cards, name, wallet, etc...|Mock|
+|PUT|`/users`|This endpoint will add a new user account to the application.|Implemented <br> **Note:** Error feedback is wonky on this one. This is already planned to be reworked.|
+|PATCH|`/users/{ouid}`|This endpoint is used in order to change account information of the user (Such as the account’s email).|Mock|
+|POST|`/users/login`|This endpoint is responsible for authenticating a user.|N/A|
+#### Cards
+|HTTP Verb|Endpoint|Description|Stage?|
+|---|---|---|---|
+|GET|`/cards`|Gets all the cards registered in the system. Can be filtered using query parameters.|N/A|
+|GET|`/users/{ouid}/cards`|Gets the collection of cards of a user, identified by his id.|N/A|
+|PUT|`/users/{ouid}/cards/{cid}`|This endpoint is responsible for adding a card to the user’s collection. The price needs to be supplied in order to subtract it from the user’s wallet.|N/A|
+#### Chats
+|HTTP Verb|Endpoint|Description|Stage?|
+|---|---|---|---|
+|GET|`/users/{ouid}/chats`|This endpoint is used to retrieve the messages of a user.|N/A|
+|GET|`/users/{ouid}/chats/{tuid}`|This endpoint will retrieve the chat between the user with the `ouid` and the user with the `tuid`.|N/A|
+|PATCH|`/users/{ouid}/chats/{tuid}`|This endpoint will add another message to the message queue between the user with the associated `ouid` and the user with the associated `tuid`.|N/A|
+|PUT|`/users/{ouid}/cards/{cid}`|This endpoint will start a message queue between 2 users. A initial message needs to be supplied with the request before a message queue is made.|N/A|
+#### Trades
+|HTTP Verb|Endpoint|Description|Stage?|
+|---|---|---|---|
+|GET|`/users/{ouid}/trades`|This endpoint is used to get incoming & outgoing trade requests.|N/A|
+|PUT|`/users/{ouid}/trades/{tuid}`|Adds a trade with a initial offer and/or requested items for that offer.|N/A|
+|PATCH|`/users/{ouid}/trades/{tid}`|This endpoint is used to accept or deny a trade request.|N/A|
+#### Wallet
+|HTTP Verb|Endpoint|Description|Stage?|
+|---|---|---|---|
+|PUT|`/users/{ouid}/wallet`|Adds a new amount of coins to the wallet.|N/A|
 ## Frequently Asked Questions
 **Q:** When trying to run the containers, I get the following error: `docker.credentials.errors.InitializationError: docker-credential-desktop.exe not installed or not available in PATH`
 <br>**A:** This is a [common problem](https://github.com/docker/compose/issues/7495) within the WSL2 Integration. There are multiple fixes for this, but one that worked for me was the following:
