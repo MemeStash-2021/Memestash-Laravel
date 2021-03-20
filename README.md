@@ -69,6 +69,28 @@ You can view the API Spec by visiting the [spec](https://git.ti.howest.be/TI/202
 |HTTP Verb|Endpoint|Description|Stage?|
 |---|---|---|---|
 |PUT|`/users/{ouid}/wallet`|Adds a new amount of coins to the wallet.|N/A|
+
+### Eloquent
+|Model|Implemented|
+|---|---|
+|User|✅|
+|Card|✅|
+|Collection|✅|
+|Chat|✅|
+|Message|✅|
+|Trade|❌|
+|Offer|❌|
+
+### Migrations
+|Migrations for...|Implemented|
+|---|---|
+|Users|✅|
+|Cards|✅|
+|Collections|✅|
+|Chats|✅|
+|Messages|✅|
+|Trades|✅|
+|Offer|✅|
 ## Frequently Asked Questions
 **Q:** When trying to run the containers, I get the following error: `docker.credentials.errors.InitializationError: docker-credential-desktop.exe not installed or not available in PATH`
 <br>**A:** This is a [common problem](https://github.com/docker/compose/issues/7495) within the WSL2 Integration. There are multiple fixes for this, but one that worked for me was the following:
