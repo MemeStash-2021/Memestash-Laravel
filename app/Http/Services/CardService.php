@@ -5,6 +5,8 @@ namespace App\Http\Services;
 
 
 use App\Models\Card;
+use App\Models\Collection;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CardService
@@ -29,24 +31,16 @@ class CardService
         }
     }
 
-    public function getUserCards($id){
-        $cards = array();
-        for($i = 0; $i < 8; $i++){
-            array_push($cards, [
-                    "id" => $i,
-                    "name" => "Card".$i,
-                    "image" => "https://via.placeholder.com/640x480.png/0044bb?text=ipsum",
-                    "description" => "blah",
-                    "cost" => 800
-                ]
-            );
-        }
-        $res = [
-            "userid" => $id,
-            "count"=> 8,
-            "cards" => $cards
-        ];
-        return json_encode($res);
+    public function getUserCards($id): string
+    {
+        $count = Collection::where('user_id', '=', $id)
+            -> count();
+        $res = User::with(['card'])
+            ->where('users.id', '=', $id)
+            ->get()
+            ->toArray();
+        $cards = $res[0]['card'];
+        return collect($res[0])->forget(["name", "wallet", "email"])->put("count", $count)->forget('card')->put('cards', $cards) ->toJson();
     }
 
     public function addCard(Request $request){
