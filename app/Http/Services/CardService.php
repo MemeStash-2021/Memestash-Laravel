@@ -34,7 +34,23 @@ class CardService
     }
 
     public function getUserCards(){
-        //
+        $cards = array();
+        for($i = 0; $i < 8; $i++){
+            array_push($cards, [
+                    "id" => $i,
+                    "name" => "Card".$i,
+                    "image" => "https://via.placeholder.com/640x480.png/0044bb?text=ipsum",
+                    "description" => "blah",
+                    "cost" => 800
+                ]
+            );
+        }
+        $res = [
+            "userid" => 3,
+            "count"=> 8,
+            "cards" => $cards
+        ];
+        return json_encode($res);
     }
 
     public function addCard(Request $request){
