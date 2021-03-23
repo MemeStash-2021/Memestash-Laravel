@@ -23,6 +23,8 @@ class Card extends Model
         'description'
     ];
 
+    protected $hidden = ['laravel_through_key'];
+
     public function collection(): BelongsTo
     {
         return $this->belongsTo(Collection::class, 'card_id');
