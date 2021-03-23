@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Collection extends Model
 {
     use HasFactory;
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.

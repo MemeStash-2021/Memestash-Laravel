@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Card extends Model
 {
     use HasFactory;
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
