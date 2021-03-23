@@ -1,62 +1,102 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+![Memestash Laravel](./markdown/logo.png)
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+---
 
-## About Laravel
+Welcome to the MemeStash Laravel Back-End. This application can be used in combination with one of the 2 Memestash clients in order to provide them with data.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Setup
+This project uses Laravel Sail in order to run. This means that Docker can be used in order to run the necessary containers
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Prerequisites
+- Make sure that you're able to run docker containers. [Docker Desktop](https://www.docker.com/products/docker-desktop) is an easy-to-use client to run containers on your host machine.
+- Make sure that you have [WSL 2 installed](https://docs.microsoft.com/en-us/windows/wsl/install-win10#manual-installation-steps) and [configured for Docker](https://docs.docker.com/docker-for-windows/wsl/#install)
+- Make sure that the following ports aren't used by any programs on your host machine *(**Tip**: If you're not sure, you can run the following command in a Windows CLI in order to check: `netstat -ano | findstr <portnumber>`)*
+    - 3306 *(This is the port used by MySQL)*
+    - 6379 *(This is the port used by Redis)*
+    - 7700 *(This is the port used by Meilisearch)*
+    - 1025 *(This is the port used by Mailhog)*
+    - 80 *(This is the port used to communicate with the server)*
+- Make sure that Git is installed on your WSL distro.    
+    
+### Installation process
+1. In your WSL Distro of choice, got to your home directory and perform the following command
+    ```
+    git clone git@git.ti.howest.be:TI/2020-2021/s4/web-and-mobile-technology/students/bo-robbrecht/memestash/laravel.git
+    ```
+    This will create a directory `laravel` in your home directory.
+2. Navigate to the previously mentioned directory and perform the following command (`-d` will run the containers detached, so that you can still use your shell):
+    ```
+    ./vendor/bin/sail up -d
+    ```
+   **Note:** *You'll need to use ./vendor/bin/sail up a lot. It's might be wise to make a alias in your `.bashrc` to make life easier, like `ms-sail` or another alias of your choice.*
+3. When all containers are up and running, you can perform the following command to construct & fill the database:
+    ```
+    ./vendor/bin/sail artisan migrate:fresh --seed
+    ```
+That should be it! If you're able to visit [Laravel's homepage](http://localhost) through `http://localhost`, the system is up & running. If you wish to stop the containers, you can use the following command: `./vendor/bin/sail stop`
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Features
+### API Spec
+You can view the API Spec by visiting the [spec](https://git.ti.howest.be/TI/2020-2021/s4/web-and-mobile-technology/students/bo-robbrecht/memestash/laravel/-/blob/master/contract/openapi.yml)
+#### Users
+|HTTP Verb|Endpoint|Description|Stage?|
+|---|---|---|---|
+|GET|`/users`|Retrieves a list of all users and info about them. Can be filtered with query parameters.| Implemented |
+|GET|`/users/{ouid}`|This endpoint gets all the information of a user to be able to construct the homepage. This includes things like cards, name, wallet, etc...|Mock|
+|PUT|`/users`|This endpoint will add a new user account to the application.|Implemented <br> **Note:** Error feedback is wonky on this one. This is already planned to be reworked.|
+|PATCH|`/users/{ouid}`|This endpoint is used in order to change account information of the user (Such as the account’s email).|Mock|
+|POST|`/users/login`|This endpoint is responsible for authenticating a user.|N/A|
+#### Cards
+|HTTP Verb|Endpoint|Description|Stage?|
+|---|---|---|---|
+|GET|`/cards`|Gets all the cards registered in the system. Can be filtered using query parameters.|N/A|
+|GET|`/users/{ouid}/cards`|Gets the collection of cards of a user, identified by his id.|N/A|
+|PUT|`/users/{ouid}/cards/{cid}`|This endpoint is responsible for adding a card to the user’s collection. The price needs to be supplied in order to subtract it from the user’s wallet.|N/A|
+#### Chats
+|HTTP Verb|Endpoint|Description|Stage?|
+|---|---|---|---|
+|GET|`/users/{ouid}/chats`|This endpoint is used to retrieve the messages of a user.|N/A|
+|GET|`/users/{ouid}/chats/{tuid}`|This endpoint will retrieve the chat between the user with the `ouid` and the user with the `tuid`.|N/A|
+|PATCH|`/users/{ouid}/chats/{tuid}`|This endpoint will add another message to the message queue between the user with the associated `ouid` and the user with the associated `tuid`.|N/A|
+|PUT|`/users/{ouid}/cards/{cid}`|This endpoint will start a message queue between 2 users. A initial message needs to be supplied with the request before a message queue is made.|N/A|
+#### Trades
+|HTTP Verb|Endpoint|Description|Stage?|
+|---|---|---|---|
+|GET|`/users/{ouid}/trades`|This endpoint is used to get incoming & outgoing trade requests.|N/A|
+|PUT|`/users/{ouid}/trades/{tuid}`|Adds a trade with a initial offer and/or requested items for that offer.|N/A|
+|PATCH|`/users/{ouid}/trades/{tid}`|This endpoint is used to accept or deny a trade request.|N/A|
+#### Wallet
+|HTTP Verb|Endpoint|Description|Stage?|
+|---|---|---|---|
+|PUT|`/users/{ouid}/wallet`|Adds a new amount of coins to the wallet.|N/A|
 
-## Learning Laravel
+### Eloquent
+|Model|Implemented|
+|---|---|
+|User|✅|
+|Card|✅|
+|Collection|✅|
+|Chat|✅|
+|Message|✅|
+|Trade|❌|
+|Offer|❌|
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Migrations
+|Migrations for...|Implemented|
+|---|---|
+|Users|✅|
+|Cards|✅|
+|Collections|✅|
+|Chats|✅|
+|Messages|✅|
+|Trades|✅|
+|Offer|✅|
+## Frequently Asked Questions
+**Q:** When trying to run the containers, I get the following error: `docker.credentials.errors.InitializationError: docker-credential-desktop.exe not installed or not available in PATH`
+<br>**A:** This is a [common problem](https://github.com/docker/compose/issues/7495) within the WSL2 Integration. There are multiple fixes for this, but one that worked for me was the following:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. `./vendor/bin/sail down` *(This removes all the existing containers)*
+2. Remove Docker's config file: `rm ~/docker/config.json`
+3. `./vendor/bin/sail up -d`
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This will cause Docker to rebuild the `config.json` and will probably clear any problems you have. If this didn't fix it, try taking a look at this [issue](https://github.com/docker/compose/issues/7495) for more solutions

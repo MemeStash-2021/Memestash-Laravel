@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Collection extends Model
+class Chat extends Model
 {
     use HasFactory;
     public $timestamps = false;
@@ -18,17 +18,22 @@ class Collection extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id',
-        'card_id'
+        'participant_id_1',
+        'participant_id_2'
     ];
 
-    public function user(): BelongsTo
+    public function participant_1(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'participant_1_id');
     }
 
-    public function card(): HasMany
+    public function participant_2(): BelongsTo
     {
-        return $this->hasMany(Card::class, 'id', 'card_id');
+        return $this->belongsTo(User::class, 'participant_2_id');
+    }
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'chat_id');
     }
 }
