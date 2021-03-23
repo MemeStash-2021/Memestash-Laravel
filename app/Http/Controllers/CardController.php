@@ -16,11 +16,12 @@ class CardController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return string
      */
-    public function index(): string
+    public function index(Request $request): string
     {
-        return $this->service->getCards();
+        return $this->service->getCards($request);
     }
 
     /**

@@ -29,9 +29,7 @@ class UserService
         if ($name == null) {
             return User::select(['id', 'name'])->orderBy('id', 'asc')->get();
         } else {
-            return User::select(['id', 'name'])->get()->sortby('id')->reject(function ($value, $key) use ($name) {
-                return !str_contains($value->name, $name);
-            })->values()->toJson();
+            return User::where('name', 'like', "%".$name."%")->select(['id', 'name'])->get();
         }
     }
 
