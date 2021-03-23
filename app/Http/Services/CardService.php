@@ -5,7 +5,7 @@ namespace App\Http\Services;
 
 
 use App\Models\Card;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class CardService
 {
@@ -33,7 +33,27 @@ class CardService
         return json_encode($res);
     }
 
-    public function getUserCards(){
+    public function getUserCards($id){
+        $cards = array();
+        for($i = 0; $i < 8; $i++){
+            array_push($cards, [
+                    "id" => $i,
+                    "name" => "Card".$i,
+                    "image" => "https://via.placeholder.com/640x480.png/0044bb?text=ipsum",
+                    "description" => "blah",
+                    "cost" => 800
+                ]
+            );
+        }
+        $res = [
+            "userid" => $id,
+            "count"=> 8,
+            "cards" => $cards
+        ];
+        return json_encode($res);
+    }
+
+    public function addCard(Request $request){
         $cards = array();
         for($i = 0; $i < 8; $i++){
             array_push($cards, [
@@ -51,9 +71,5 @@ class CardService
             "cards" => $cards
         ];
         return json_encode($res);
-    }
-
-    public function addCard(Request $request){
-        //
     }
 }

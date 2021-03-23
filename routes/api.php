@@ -26,7 +26,7 @@ Route::prefix('users')->group(function () {
     Route::put('/', [UserController::class, 'store']);
     Route::patch('/{ouid}', [UserController::class, 'update']);
     Route::get('/{ouid}/cards', [CardController::class, 'show']);
-    Route::put('/{ouid}/chats/{cid}', [CardController::class, 'store']);
+    Route::put('/{ouid}/cards/{cid}', [CardController::class, 'store']);
 });
 
 Route::prefix('cards') -> group(function (){
