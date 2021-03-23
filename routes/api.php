@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CardController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,4 +25,10 @@ Route::prefix('users')->group(function () {
     Route::get('/{ouid}', [UserController::class, 'show']);
     Route::put('/', [UserController::class, 'store']);
     Route::patch('/{ouid}', [UserController::class, 'update']);
+    Route::get('/{ouid}/cards', [CardController::class, 'show']);
+    Route::put('/{ouid}/cards/{cid}', [CardController::class, 'store']);
+});
+
+Route::prefix('cards') -> group(function (){
+    Route::get('/', [CardController::class, 'index']);
 });
