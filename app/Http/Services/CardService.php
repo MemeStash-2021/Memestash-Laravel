@@ -21,7 +21,11 @@ class CardService
         $name = $request->input('name');
         $id = $request->input('id');
         if($id !== null){
-            return Card::find($id);
+            return Card::where('id', '=', $id) -> get();
+        } else if($name !== null){
+            return Card::where('name', 'like', '%'.$name.'%') -> get();
+        } else{
+            return Card::all();
         }
     }
 
