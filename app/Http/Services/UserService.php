@@ -48,7 +48,7 @@ class UserService
         $user->save();
         //TODO: Add proper error handling through API
 
-        return User::select(['id', 'name'])->dd();
+        return User::select(['id', 'name'])->orderBy('id', 'desc')->first();
     }
 
     /**
