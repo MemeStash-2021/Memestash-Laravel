@@ -41,7 +41,8 @@ class User extends Authenticatable
         'remember_token',
         'updated_at',
         'created_at',
-        'email_verified_at'
+        'email_verified_at',
+        'email'
     ];
 
     /**
@@ -69,7 +70,7 @@ class User extends Authenticatable
 
     public function card(): HasManyThrough
     {
-        return $this->hasManyThrough(Card::class, Collection::class, 'id', 'card_id', 'id', 'user_id');
+        return $this->hasManyThrough(Card::class, Collection::class,'user_id','id', 'id', 'card_id');
     }
 
     public function chat(): HasMany

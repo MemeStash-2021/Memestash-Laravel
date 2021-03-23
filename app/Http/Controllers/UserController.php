@@ -41,17 +41,11 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return Response
+     * @return string
      */
     public function show($id)
     {
-        $res = array('id' => $id, 'name' => "Ruiner", "wallet" => 800000);
-        $cards = array();
-        for ($i =0; $i<6; $i++){
-            $cards[$i] = array('id'=> $i, "name" => "card1", "image" => "https://placeholder.com/300", "description" => "A description", "cost" => 800);
-        }
-        array_push($res, ["cards" => $cards]);
-        return json_encode($res);
+        return $this->service->show_user($id);
     }
 
     /**
@@ -59,7 +53,7 @@ class UserController extends Controller
      *
      * @param Request $request
      * @param int $id
-     * @return Response
+     * @return string
      */
     public function update(Request $request, $id)
     {

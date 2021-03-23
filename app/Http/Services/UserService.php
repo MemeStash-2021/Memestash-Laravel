@@ -52,4 +52,15 @@ class UserService
 
         return User::select(['id', 'name'])->dd();
     }
+
+    /**
+     * Shows a specific student and his information. The password's automatically hashed & Validation is taken care of (W.I.P.)
+     * @param int $id
+     * @return string
+     */
+
+    public function show_user(int $id)
+    {
+        return User::with(['card'])->where('id', '=', $id)->get();
+    }
 }
