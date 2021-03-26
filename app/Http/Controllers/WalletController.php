@@ -11,10 +11,10 @@ class WalletController extends Controller
 
     public function __construct(WalletService $service)
     {
-        $this->$service = $service;
+        $this->service = $service;
     }
 
-    public function add(Request $request){
-        return $this->service->addCurrency($request);
+    public function add(Request $request, int $id){
+        return $this->service->addCurrency($id, $request);
     }
 }
