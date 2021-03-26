@@ -19,11 +19,11 @@ class ChatController extends Controller
      * Display a listing of the resource.
      *
      * @param int $id
-     * @return Response
+     * @return string
      */
     public function index(int $id)
     {
-        //
+        return $this->service->getChatsOfUser($id);
     }
 
     /**

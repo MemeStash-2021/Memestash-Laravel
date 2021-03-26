@@ -6,5 +6,24 @@ namespace App\Http\Services;
 
 class ChatService
 {
+    private $model;
 
+    public function getChatsOfUser($id){
+        $res = array();
+        for($i = 0;$i<10;$i++){
+            array_push($res, [
+                "correspondent" => [
+                    "id" => $i,
+                    "name" => ($i % 2 === 0) ? "Ruiner" : "Mori"
+                ],
+                "latestMessage" => [
+                    "message" => "This is an example message",
+                    "date" => "2021-03-2".(5-$i)."T08:34:27.807Z",
+                    "sender" => ($i % 2 === 0) ? "Mori" : "Ruiner",
+                    "senderId" => ($i % 2 === 0) ? 1 : $id
+                ]
+            ]);
+        }
+        return json_encode($res);
+    }
 }
