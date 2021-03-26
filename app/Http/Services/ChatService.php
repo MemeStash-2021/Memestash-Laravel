@@ -69,4 +69,23 @@ class ChatService
             "messages" => $messages
         ]);
     }
+
+    public function beginConversation(Request $request, int $ouid, int $tuid){
+        return json_encode([
+            "user" => [
+                "id" => $ouid,
+                "name" => "Ruiner"
+            ],
+            "correspondent" => [
+                "id" => $tuid,
+                "name" => "Ruiner"
+            ],
+            "messages" => [
+                "message" => $request -> get("message"),
+                "date" => "2021-03-25T08:34:27.807Z",
+                "sender" => "Ruiner",
+                "senderId" => $ouid
+            ]
+        ]);
+    }
 }
