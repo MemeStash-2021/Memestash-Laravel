@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WalletController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,7 @@ Route::prefix('users')->group(function () {
     Route::patch('/{ouid}', [UserController::class, 'update']);
     Route::get('/{ouid}/cards', [CardController::class, 'show']);
     Route::put('/{ouid}/cards/{cid}', [CardController::class, 'store']);
+    Route::put('/{ouid}/wallet', [WalletController::class, ]);
 });
 
 Route::prefix('cards') -> group(function (){
