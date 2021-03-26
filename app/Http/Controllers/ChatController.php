@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\ChatService;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class ChatController extends Controller
 {
@@ -32,9 +31,9 @@ class ChatController extends Controller
      * @param Request $request
      * @param int $ouid
      * @param int $tuid
-     * @return Response
+     * @return string
      */
-    public function store(Request $request, int $ouid, int $tuid)
+    public function store(Request $request, int $ouid, int $tuid): string
     {
         //
     }
@@ -57,10 +56,10 @@ class ChatController extends Controller
      * @param Request $request
      * @param int $ouid
      * @param int $tuid
-     * @return Response
+     * @return string
      */
-    public function update(Request $request, int $ouid, int $tuid)
+    public function update(Request $request, int $ouid, int $tuid): string
     {
-        //
+        return $this->service->addMessage($request, $ouid, $tuid);
     }
 }
