@@ -21,7 +21,7 @@ class ChatController extends Controller
      * @param int $id
      * @return string
      */
-    public function index(int $id)
+    public function index(int $id): string
     {
         return $this->service->getChatsOfUser($id);
     }
@@ -44,11 +44,11 @@ class ChatController extends Controller
      *
      * @param int $ouid
      * @param int $tuid
-     * @return Response
+     * @return string
      */
-    public function show(int $ouid, int $tuid)
+    public function show(int $ouid, int $tuid): string
     {
-        //
+        return $this->service->showMessages($ouid, $tuid);
     }
 
     /**

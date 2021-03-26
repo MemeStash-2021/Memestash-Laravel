@@ -26,4 +26,17 @@ class ChatService
         }
         return json_encode($res);
     }
+
+    public function showMessages(int $ouid, int $tuid){
+        $res = array();
+        for($i = 0; $i<9; $i++){
+            array_push($res, [
+                "message" => "This is an example message",
+                "date" => "2021-03-2".(9-$i)."T08:34:27.807Z",
+                "sender" => ($i % 2 === 0) ? "Mori" : "Ruiner",
+                "senderId" => ($i % 2 === 0) ? $ouid : $tuid
+            ]);
+        }
+        return json_encode($res);
+    }
 }
