@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CardController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Http\Request;
@@ -29,6 +30,10 @@ Route::prefix('users')->group(function () {
     Route::get('/{ouid}/cards', [CardController::class, 'show']);
     Route::put('/{ouid}/cards/{cid}', [CardController::class, 'store']);
     Route::put('/{ouid}/wallet', [WalletController::class, 'add']);
+    Route::get('/{ouid}/chats', [ChatController::class, 'index']);
+    Route::get('/{ouid}/chats/{tuid}', [ChatController::class, 'show']);
+    Route::patch('/{ouid}/chats/{tuid}', [ChatController::class, 'update']);
+    Route::put('/{ouid}/chats/{tuid}', [ChatController::class, 'store']);
 });
 
 Route::prefix('cards') -> group(function (){
