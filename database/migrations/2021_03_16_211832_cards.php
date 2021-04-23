@@ -19,6 +19,8 @@ class Cards extends Migration
             $table->string('picture');
             $table->integer('price');
             $table->text('description');
+            $table->integer('likes');
+            $table->integer('views');
         });
     }
 

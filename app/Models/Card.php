@@ -20,7 +20,9 @@ class Card extends Model
         'name',
         'picture',
         'price',
-        'description'
+        'description',
+        'likes',
+        'views'
     ];
 
     protected $hidden = ['laravel_through_key'];

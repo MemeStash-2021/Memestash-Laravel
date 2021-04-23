@@ -25,7 +25,9 @@ class CardFactory extends Factory
             'name' => $this->faker->catchPhrase,
             'picture' => $this->faker->imageUrl(),
             'price' => $this->faker->numberBetween(100, 1200),
-            'description'=> $this->faker->realText(255)
+            'description'=> $this->faker->realText(255),
+            'likes' => $this->faker->numberBetween(0, 1000000),
+            'views' => $this->faker->numberBetween(0, 1000000)
         ];
     }
 }
