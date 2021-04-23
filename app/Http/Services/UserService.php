@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class UserService
 {
@@ -40,17 +41,19 @@ class UserService
      * Adds a new user to the database. The password's automatically hashed & Validation is taken care of (W.I.P.)
      * @param Request $request
      * @return string
+     * @throws ValidationException
      */
     public function add_user(Request $request): string
     {
-        $data = $this->validator->newUser($request);
+        $validation = $this->validator->newUser($request);
+        if($validation -> fails()){
+            throw new ValidationException($validation);
+        }
         $user = new User();
-        $user->name = $data['username'];
-        $user->password = Hash::make($data['password']);
-        $user->email = $data['email'];
+        $user->name = $request->get('username');
+        $user->password = Hash::make($request->get('password'));
+        $user->email = $request->get('email');
         $user->save();
-        //TODO: Add proper error handling through API
-
         return User::select(['id', 'name'])->orderBy('id', 'desc')->first();
     }
 

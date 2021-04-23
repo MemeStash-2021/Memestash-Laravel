@@ -4,16 +4,17 @@
 namespace App\Http\Services;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ValidationService
 {
-    public function newUser(Request $request): array
+    public function newUser(Request $request): \Illuminate\Contracts\Validation\Validator
     {
         $rules = [
-            "username" => "String|max:255|unique:App\Models\User,name|required",
-            "email" => "email|max:255|unique:App\Models\User,email|required",
-            "password" => "string|max:128|required"
+            "username" => "required|String|max:255|unique:App\Models\User,name",
+            "email" => "required|email|max:255|unique:App\Models\User,email",
+            "password" => "required|string|max:128"
         ];
-        return $request -> validate($rules);
+        return Validator::make($request -> all(),$rules);
     }
 }
