@@ -51,3 +51,8 @@ Route::prefix('users/{ouid}/chats/{tuid}')->group(function (){
     Route::patch('/', [ChatController::class, 'update']);
     Route::put('/', [ChatController::class, 'store']);
 });
+
+Route::fallback(function(){
+    return response()->json([
+        'message' => 'Route not found'], 404);
+});
