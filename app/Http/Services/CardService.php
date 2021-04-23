@@ -5,7 +5,6 @@ namespace App\Http\Services;
 
 
 use App\Models\Card;
-use App\Models\Collection;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -33,14 +32,14 @@ class CardService
 
     public function getUserCards($id): string
     {
-        $count = Collection::where('user_id', '=', $id)
-            -> count();
-        $res = User::with(['card'])
-            ->where('users.id', '=', $id)
-            ->get()
-            ->toArray();
-        $cards = $res[0]['card'];
-        return collect($res[0])->forget(["name", "wallet", "email"])->put("count", $count)->forget('card')->put('cards', $cards) ->toJson();
+        $res = User::with('card')->findOrFail($id);
+        $cards = collect($res)->get('card');
+        $count = count($cards);
+        return collect($res)
+            ->forget(["name", "wallet", "email"])
+            ->put("count", $count)
+            ->forget('card')
+            ->put('cards', $cards);
     }
 
     public function addCard(Request $request){
