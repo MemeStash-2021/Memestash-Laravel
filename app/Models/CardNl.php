@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Card extends Model
+class CardNl extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    protected $table = 'cards_nl';
 
     /**
      * The attributes that are mass assignable.
@@ -19,22 +19,13 @@ class Card extends Model
      */
     protected $fillable = [
         'name',
-        'picture',
-        'price',
-        'description',
-        'likes',
-        'views'
+        'description'
     ];
 
     protected $hidden = ['laravel_through_key'];
 
-    public function collection(): BelongsTo
+    public function card(): BelongsTo
     {
-        return $this->belongsTo(Collection::class, 'card_id');
-    }
-
-    public function card_nl(): HasOne
-    {
-        return $this->hasOne(CardNl::class);
+        return $this->belongsTo(Card::class);
     }
 }

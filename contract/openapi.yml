@@ -147,6 +147,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/NameQuery"
         - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/language"
       responses:
         '200':
           description: OK
@@ -499,6 +500,12 @@ components:
       schema:
         type: integer
       description: Defines the trade ID
+    language:
+      name: lang
+      in: query
+      schema:
+        type: string
+      description: Returns the specific language. If blank, returns English translation.
   schemas:
     ShortUser:
       type: object

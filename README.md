@@ -43,14 +43,14 @@ You can view the API Spec by visiting the [spec](https://git.ti.howest.be/TI/202
 |---|---|---|---|
 |GET|`/users`|Retrieves a list of all users and info about them. Can be filtered with query parameters.| Implemented |
 |GET|`/users/{ouid}`|This endpoint gets all the information of a user to be able to construct the homepage. This includes things like cards, name, wallet, etc...|Mock|
-|PUT|`/users`|This endpoint will add a new user account to the application.|Implemented <br> **Note:** Error feedback is wonky on this one. This is already planned to be reworked.|
+|PUT|`/users`|This endpoint will add a new user account to the application.|Implemented|
 |PATCH|`/users/{ouid}`|This endpoint is used in order to change account information of the user (Such as the account’s email).|Mock|
 |POST|`/users/login`|This endpoint is responsible for authenticating a user.|N/A|
 #### Cards
 |HTTP Verb|Endpoint|Description|Stage?|
 |---|---|---|---|
-|GET|`/cards`|Gets all the cards registered in the system. Can be filtered using query parameters.|N/A|
-|GET|`/users/{ouid}/cards`|Gets the collection of cards of a user, identified by his id.|N/A|
+|GET|`/cards`|Gets all the cards registered in the system. Can be filtered using query parameters.|Implemented|
+|GET|`/users/{ouid}/cards`|Gets the collection of cards of a user, identified by his id.|Implemented|
 |PUT|`/users/{ouid}/cards/{cid}`|This endpoint is responsible for adding a card to the user’s collection. The price needs to be supplied in order to subtract it from the user’s wallet.|N/A|
 #### Chats
 |HTTP Verb|Endpoint|Description|Stage?|
