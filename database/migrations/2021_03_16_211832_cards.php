@@ -22,6 +22,12 @@ class Cards extends Migration
             $table->integer('likes');
             $table->integer('views');
         });
+        Schema::create('cards_nl', function (Blueprint $table){
+            $table->id();
+            $table->bigInteger('card_id');
+            $table->string('name');
+            $table->text('description');
+        });
     }
 
     /**
@@ -32,5 +38,6 @@ class Cards extends Migration
     public function down()
     {
         Schema::dropIfExists('cards');
+        Schema::dropIfExists('cards_nl');
     }
 }

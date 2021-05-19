@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Card;
+use App\Models\CardNl;
 use Illuminate\Database\Seeder;
 
 class CardSeeder extends Seeder
@@ -15,5 +16,6 @@ class CardSeeder extends Seeder
     public function run()
     {
         Card::factory(50)->create();
+        CardNl::factory(50)->create();
     }
 }
