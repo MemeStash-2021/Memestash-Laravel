@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\CardService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class CardController extends Controller
 {
@@ -21,6 +22,7 @@ class CardController extends Controller
      */
     public function index(Request $request): string
     {
+        $this->changeLocale($request);
         return $this->service->getCards($request);
     }
 
@@ -44,5 +46,12 @@ class CardController extends Controller
     public function show($id)
     {
         return $this->service->getUserCards($id);
+    }
+
+    private function changeLocale(Request $request){
+        $locale = App::getLocale();
+        if($request->input('lang') != $locale){
+            App::setLocale($request->input('lang'));
+        }
     }
 }

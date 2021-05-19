@@ -5,8 +5,10 @@ namespace App\Http\Services;
 
 
 use App\Models\Card;
+use App\Models\CardNl;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class CardService
 {
@@ -21,6 +23,9 @@ class CardService
     {
         $name = $request->input('name');
         $id = $request->input('id');
+        if(App::getLocale() == "nl_BE"){
+            return CardNl::with(['card'])->get();
+        }
         if($id !== null){
             return Card::where('id', '=', $id) -> get();
         } else if($name !== null){
