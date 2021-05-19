@@ -6,7 +6,6 @@ namespace App\Http\Services;
 
 use App\Models\Card;
 use App\Models\CardNl;
-use App\Models\Collection;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -24,22 +23,18 @@ class CardService
     {
         $name = $request->input('name');
         $id = $request->input('id');
-        $res = [];
+        $res = Card::all();
         if(App::getLocale() == "nl_BE"){
-            $cards = CardNl::with(['card']) -> get();
-            foreach ($cards as $card){
-                $info = collect($card)->pull('card');
-                array_push($res, collect($info)->merge($card)->forget(['card_id', 'card']));
-            }
-            return collect($res)->toJson();
+            $res = $this->getTranslations();
         }
         if($id !== null){
-            return Card::where('id', '=', $id) -> get();
+            return collect($res)->where('id', $id)->toJson();
         } else if($name !== null){
-            return Card::where('name', 'like', '%'.$name.'%') -> get();
-        } else{
-            return Card::all();
+            return collect($res)->filter(function ($value, $key) use ($name){
+                return str_contains(strtolower(collect($value)->get('name')), strtolower($name));
+            })->toJson();
         }
+        return collect($res) -> toJson();
     }
 
     public function getUserCards($id): string
@@ -72,5 +67,16 @@ class CardService
             "cards" => $cards
         ];
         return json_encode($res);
+    }
+
+    private function getTranslations(): array
+    {
+        $res = [];
+        $cards = CardNl::with(['card']) -> get();
+        foreach ($cards as $card){
+            $info = collect($card)->pull('card');
+            array_push($res, collect($info)->merge($card)->forget(['card_id', 'card']));
+        }
+        return $res;
     }
 }
