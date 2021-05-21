@@ -29,21 +29,22 @@ class CardController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param $ouid
+     * @param $cid
      * @return string
      */
-    public function store(Request $request)
+    public function store($ouid, $cid): string
     {
-        return $this->service->addCard($request);
+        return $this->service->addCard($ouid, $cid);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return string
      */
-    public function show($id)
+    public function show(int $id): string
     {
         return $this->service->getUserCards($id);
     }
