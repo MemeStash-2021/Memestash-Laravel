@@ -45,13 +45,21 @@ class Handler extends ExceptionHandler
     {
         if ($e instanceof ModelNotFoundException) {
             return response()->json([
-                'error' => 'No '.str_replace('App\\Models\\', '', $e->getModel()).' found'], 404);
+                'message' => "Not found",
+                'errors' => ['No '.str_replace('App\\Models\\', '', $e->getModel()).' found']
+            ], 404);
         }
         if($e instanceof ValidationException) {
             return response() ->json([
                 'message' => "Malformed request body",
                 'errors' => $e->errors()
             ], 400);
+        }
+        if($e instanceof ImproperResourceException){
+            return response()->json([
+                "message" => "Conflict",
+                "errors" => ["Not enough coins"]
+            ], 409);
         }
         return parent::render($request, $e);
     }
