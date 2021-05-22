@@ -36,8 +36,9 @@ This project uses Laravel Sail in order to run. This means that Docker can be us
 That should be it! If you're able to visit [Laravel's homepage](http://localhost) through `http://localhost`, the system is up & running. If you wish to stop the containers, you can use the following command: `./vendor/bin/sail stop`
 
 ## Features
+### Documentation
+You can find the swagger documentation by navigating to the root domain, *e.g. [`localhost`](http://localhost/)
 ### API Spec
-You can view the API Spec by visiting the [spec](https://git.ti.howest.be/TI/2020-2021/s4/web-and-mobile-technology/students/bo-robbrecht/memestash/laravel/-/blob/master/contract/openapi.yml)
 #### Users
 |HTTP Verb|Endpoint|Description|Stage?|
 |---|---|---|---|
