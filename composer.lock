@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4525f0d97f08280592233fc3a1ef83bc",
+    "content-hash": "c6f6bbfd08b72c49bd8140e315153d39",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1870,6 +1870,68 @@
                 }
             ],
             "time": "2021-02-11T18:30:17+00:00"
+        },
+        {
+            "name": "nextapps/laravel-swagger-ui",
+            "version": "0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nextapps-be/laravel-swagger-ui.git",
+                "reference": "11083673c03b1bb238865b4f9ac8b2513ea9318b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nextapps-be/laravel-swagger-ui/zipball/11083673c03b1bb238865b4f9ac8b2513ea9318b",
+                "reference": "11083673c03b1bb238865b4f9ac8b2513ea9318b",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^8.0",
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.17",
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^9.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "NextApps\\SwaggerUi\\SwaggerUiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "NextApps\\SwaggerUi\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Günther Debrauwer",
+                    "email": "gunther@nextapps.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Add Swagger UI to a Laravel application.",
+            "homepage": "https://github.com/nextapps/laravel-swagger-ui",
+            "keywords": [
+                "laravel",
+                "nextapps",
+                "openapi",
+                "swagger",
+                "swagger-ui"
+            ],
+            "support": {
+                "issues": "https://github.com/nextapps-be/laravel-swagger-ui/issues",
+                "source": "https://github.com/nextapps-be/laravel-swagger-ui/tree/0.2.0"
+            },
+            "time": "2021-02-15T10:29:12+00:00"
         },
         {
             "name": "nikic/php-parser",
