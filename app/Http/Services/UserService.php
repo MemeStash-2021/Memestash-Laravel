@@ -4,9 +4,6 @@
 namespace App\Http\Services;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -60,11 +57,13 @@ class UserService
     /**
      * Shows a specific student and his information. The password's automatically hashed & Validation is taken care of (W.I.P.)
      * @param int $id
-     * @return Builder|Builder[]|Collection|Model|null
+     * @return string
      */
 
-    public function show_user(int $id)
+    public function show_user(int $id): string
     {
-        return User::with(['card'])->findOrFail($id);
+        $user = User::with(['card'])->findOrFail($id);
+        $card = collect($user)->pull('card');
+        return collect($user)->forget('card')->put('cards', $card)->toJson();
     }
 }
