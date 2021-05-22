@@ -4,6 +4,7 @@
 namespace App\Http\Services;
 
 
+use App\Exceptions\ImproperResourceException;
 use App\Models\Card;
 use App\Models\CardNl;
 use App\Models\Collection;
@@ -68,8 +69,13 @@ class CardService
      */
     public function addCard(int $ouid, int $cid): string
     {
-        Card::findOrFail($cid);
-        User::findOrFail($ouid);
+        $card = Card::findOrFail($cid);
+        $user = User::findOrFail($ouid);
+        if ($card->price > $user->wallet){
+            throw new ImproperResourceException();
+        }
+        $user->wallet = $user->wallet - $card->price;
+        $user->save();
         $entry = new Collection;
         $entry->user_id = $ouid;
         $entry->card_id = $cid;
