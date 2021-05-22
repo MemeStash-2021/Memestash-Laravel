@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ImproperResourceException;
 use App\Http\Services\CardService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -32,6 +33,7 @@ class CardController extends Controller
      * @param $ouid
      * @param $cid
      * @return string
+     * @throws ImproperResourceException
      */
     public function store($ouid, $cid): string
     {
