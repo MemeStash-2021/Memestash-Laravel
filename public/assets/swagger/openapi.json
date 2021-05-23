@@ -13,6 +13,10 @@
         {
             "url": "http://localhost/api",
             "description": "Local url for testing"
+        },
+        {
+            "url": "https://safe-shelf-44919.herokuapp.com/api",
+            "description": "Heroku Application"
         }
     ],
     "tags": [
