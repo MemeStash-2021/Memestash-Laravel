@@ -45,7 +45,7 @@ You can find the swagger documentation by navigating to the root domain, *e.g. [
 |HTTP Verb|Endpoint|Description|Stage?|
 |---|---|---|---|
 |GET|`/users`|Retrieves a list of all users and info about them. Can be filtered with query parameters.| Implemented |
-|GET|`/users/{ouid}`|This endpoint gets all the information of a user to be able to construct the homepage. This includes things like cards, name, wallet, etc...|Mock|
+|GET|`/users/{ouid}`|This endpoint gets all the information of a user to be able to construct the homepage. This includes things like cards, name, wallet, etc...|Implemnted|
 |PUT|`/users`|This endpoint will add a new user account to the application.|Implemented|
 |PATCH|`/users/{ouid}`|This endpoint is used in order to change account information of the user (Such as the account’s email).|Mock|
 |POST|`/users/login`|This endpoint is responsible for authenticating a user.|N/A|
@@ -54,14 +54,14 @@ You can find the swagger documentation by navigating to the root domain, *e.g. [
 |---|---|---|---|
 |GET|`/cards`|Gets all the cards registered in the system. Can be filtered using query parameters.|Implemented|
 |GET|`/users/{ouid}/cards`|Gets the collection of cards of a user, identified by his id.|Implemented|
-|PUT|`/users/{ouid}/cards/{cid}`|This endpoint is responsible for adding a card to the user’s collection. The price needs to be supplied in order to subtract it from the user’s wallet.|N/A|
+|PUT|`/users/{ouid}/cards/{cid}`|This endpoint is responsible for adding a card to the user’s collection. The price needs to be supplied in order to subtract it from the user’s wallet.|Implemented|
 #### Chats
 |HTTP Verb|Endpoint|Description|Stage?|
 |---|---|---|---|
-|GET|`/users/{ouid}/chats`|This endpoint is used to retrieve the messages of a user.|N/A|
-|GET|`/users/{ouid}/chats/{tuid}`|This endpoint will retrieve the chat between the user with the `ouid` and the user with the `tuid`.|N/A|
-|PATCH|`/users/{ouid}/chats/{tuid}`|This endpoint will add another message to the message queue between the user with the associated `ouid` and the user with the associated `tuid`.|N/A|
-|PUT|`/users/{ouid}/cards/{cid}`|This endpoint will start a message queue between 2 users. A initial message needs to be supplied with the request before a message queue is made.|N/A|
+|GET|`/users/{ouid}/chats`|This endpoint is used to retrieve the messages of a user.|Mock|
+|GET|`/users/{ouid}/chats/{tuid}`|This endpoint will retrieve the chat between the user with the `ouid` and the user with the `tuid`.|Mock|
+|PATCH|`/users/{ouid}/chats/{tuid}`|This endpoint will add another message to the message queue between the user with the associated `ouid` and the user with the associated `tuid`.|Mock|
+|PUT|`/users/{ouid}/cards/{cid}`|This endpoint will start a message queue between 2 users. A initial message needs to be supplied with the request before a message queue is made.|Mock|
 #### Trades
 |HTTP Verb|Endpoint|Description|Stage?|
 |---|---|---|---|
@@ -71,7 +71,7 @@ You can find the swagger documentation by navigating to the root domain, *e.g. [
 #### Wallet
 |HTTP Verb|Endpoint|Description|Stage?|
 |---|---|---|---|
-|PUT|`/users/{ouid}/wallet`|Adds a new amount of coins to the wallet.|N/A|
+|PUT|`/users/{ouid}/wallet`|Adds a new amount of coins to the wallet.|Mock|
 
 ### Eloquent
 |Model|Implemented|
