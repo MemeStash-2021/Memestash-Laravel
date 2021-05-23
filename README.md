@@ -5,9 +5,10 @@
 Welcome to the MemeStash Laravel Back-End. This application can be used in combination with one of the 2 Memestash clients in order to provide them with data.
 
 ## Setup
+### Local
 This project uses Laravel Sail in order to run. This means that Docker can be used in order to run the necessary containers
 
-### Prerequisites
+#### Prerequisites
 - Make sure that you're able to run docker containers. [Docker Desktop](https://www.docker.com/products/docker-desktop) is an easy-to-use client to run containers on your host machine.
 - Make sure that you have [WSL 2 installed](https://docs.microsoft.com/en-us/windows/wsl/install-win10#manual-installation-steps) and [configured for Docker](https://docs.docker.com/docker-for-windows/wsl/#install)
 - Make sure that the following ports aren't used by any programs on your host machine *(**Tip**: If you're not sure, you can run the following command in a Windows CLI in order to check: `netstat -ano | findstr <portnumber>`)*
@@ -18,7 +19,7 @@ This project uses Laravel Sail in order to run. This means that Docker can be us
     - 80 *(This is the port used to communicate with the server)*
 - Make sure that Git is installed on your WSL distro.    
     
-### Installation process
+#### Installation process
 1. In your WSL Distro of choice, got to your home directory and perform the following command
     ```
     git clone git@git.ti.howest.be:TI/2020-2021/s4/web-and-mobile-technology/students/bo-robbrecht/memestash/laravel.git
@@ -34,7 +35,8 @@ This project uses Laravel Sail in order to run. This means that Docker can be us
     ./vendor/bin/sail artisan migrate:fresh --seed
     ```
 That should be it! If you're able to visit [Laravel's homepage](http://localhost) through `http://localhost`, the system is up & running. If you wish to stop the containers, you can use the following command: `./vendor/bin/sail stop`
-
+### Heroku
+You can also visit the [Heroku version](https://safe-shelf-44919.herokuapp.com/) of this API.
 ## Features
 ### Documentation
 You can find the swagger documentation by navigating to the root domain, *e.g. [`localhost`](http://localhost/)
