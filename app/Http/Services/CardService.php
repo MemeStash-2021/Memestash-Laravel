@@ -37,9 +37,9 @@ class CardService
         if ($id !== null) {
             return collect([collect($res)->where('id', $id)->first()])->toJson();
         } else if ($name !== null) {
-            return collect($res)->filter(function ($value, $key) use ($name) {
+            return collect(collect($res)->filter(function ($value, $key) use ($name) {
                 return str_contains(strtolower(collect($value)->get('name')), strtolower($name));
-            })->toJson();
+            })->values())->toJson();
         }
         return collect($res)->toJson();
     }
