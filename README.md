@@ -4,13 +4,6 @@
 
 Welcome to the MemeStash Laravel Back-End. This application can be used in combination with one of the 2 Memestash clients in order to provide them with data.
 
-## Video
-Here you can watch the video about the project:
-
-[![Memestash Presentation Video](http://img.youtube.com/vi/y0Q6Cn6_y0s/0.jpg)](http://www.youtube.com/watch?v=y0Q6Cn6_y0s "Memestash Presentation Video")
-
-*If the embedded video player doesn't work, you can still visit the video with this [link](https://youtu.be/y0Q6Cn6_y0s)*
-
 ## Setup
 ### Local
 This project uses Laravel Sail in order to run. This means that Docker can be used in order to run the necessary containers
