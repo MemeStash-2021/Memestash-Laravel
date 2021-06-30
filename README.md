@@ -4,6 +4,11 @@
 
 Welcome to the MemeStash Laravel Back-End. This application can be used in combination with one of the 2 Memestash clients in order to provide them with data.
 
+## Project contents
+- [NodeJS API](https://github.com/BT-Creator/Memestash-NodeJS)
+- [Laravel API](https://github.com/BT-Creator/Memestash-Laravel)
+- [PWA](https://github.com/BT-Creator/Memestash-PWA)
+
 ## Setup
 ### Local
 This project uses Laravel Sail in order to run. This means that Docker can be used in order to run the necessary containers
